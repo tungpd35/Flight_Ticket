@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Latest compiled and minified CSS -->
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/885041f363.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/agency/home.css">
+</head>
+<body>
+<header class="d-flex justify-content-between">
+    <div class="header-wrapper">
+        <div class="container-wrapper d-flex justify-content-between">
+            <div class="vnalogo">
+                <a href="">
+                    <img src="https://www.vietnamairlines.com/~/media/Images/VNANew/Home/Logo%20Header/VNA_logo_vn.png" alt="" srcset="">
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="header-nav">
+        <ul class="d-flex justify-content-start align-items-center">
+            <li><a href="">Khám phá</a></li>
+            <li><a href="">Đặt vé</a></li>
+            <li><a href="">Thông tin hành trình</a></li>
+            <li><a href="">Ưu đãi</a></li>
+        </ul>
+    </div>
+    <div class="header-login d-flex justify-content-start align-items-center">
+        <div class="login"><a href="/logout">Đăng xuất</a></div>
+    </div>
+</header>
+<class class="banner">
+    <div class="list-banner" style="width: 100%; height: 100%;">
+        <div class="banner-item" style="background-color: rgba(0, 157, 255, 0.422); width: 100%; height: 100%">
+        </div>
+    </div>
+</class>
+<div class="booking-container">
+    <div class="search-form">
+        <div>
+            <div style="font-weight: 500; color: black; font-size: 14px;" class="form-group d-flex">
+                <p style="margin-right: 20px;">Hành trình:</p>
+                <div class="selection">
+                    <label for="oneway">Một chiều</label>
+                    <input type="radio" checked name="flight" id="one-way">
+                </div>
+                <div class="selection">
+                    <label  for="oneway">Khứ hồi</label>
+                    <input type="radio" name="flight" id="two-way">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="booking-item col-xl col-sm-3">
+                    <p class="header-item">Điểm khởi hành</p>
+                    <input id="input-departure" class="from-to" type="text">
+                </div>
+                <div id="departure-choose" class="modal" >
+                    <div class="modal-content">
+                        <div id="close-departure-icon" class="close-start-icon"><i class="fa-solid fa-x"></i></div>
+                        <h3 style="margin-left: 20px;">Chọn điểm khởi hành</h3>
+                        <div class="modal-body d-flex">
+                            <div class="col-sm-3 col-xs-6">
+                                <ul class="list-destination">
+                                    <li style="color: #17acc3; font-size: 22px;">Nội Địa</li>
+                                    <li value="HAN" class="departure-item">Hà Nội(HNA)</li>
+                                    <li value="SGN" class="departure-item">Hồ Chí Minh(SGN)</li>
+                                    <li value="HPH" class="departure-item">Hải Phòng(HPH)</li>
+                                    <li value="VII" class="departure-item">Vinh(VII)</li>
+                                    <li value="THD" class="departure-item">Thanh Hóa(THD)</li>
+                                    <li class="departure-item">Đà Nẵng(DAD)</li>
+                                    <li class="departure-item">Nha Trang(CXR)</li>
+                                    <li class="departure-item">Đà Lạt</li>
+                                    <li class="departure-item">Côn Đảo(VCS)</li>
+                                    <li class="departure-item">Phú Quốc(PQC)</li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-3 col-xs-6">
+                                <ul class="list-destination">
+                                    <li style="color: #17acc3; font-size: 22px;">Úc</li>
+                                    <li class="departure-item">Sydney(SYD)</li>
+                                    <li class="departure-item">Melboume (MEL)</li>
+                                    <li class="departure-item">Brisbane (BNE)</li>
+                                    <li class="departure-item">Adelaide(ADL)</li>
+                                    <li class="departure-item">Perth (PER)</li>
+                                    <li sstyle="color: #17acc3; font-size: 22px;">Hàn Quốc</li>
+                                    <li class="departure-item">Seoul</li>
+                                    <li class="departure-item">Busan</li>
+                                    <li class="departure-item">Daegu(TAE)</li>
+                                    <li style="color: #17acc3; font-size: 22px;">Nhật Bản</li>
+                                    <li class="departure-item">Osaka</li>
+                                    <li value="NRT" class="departure-item">Tokyo Narita</li>
+                                    <li class="departure-item">Haneda Tokyo</li>
+                                    <li class="departure-item">Nagoya</li>
+                                    <li style="color: #17acc3; font-size: 22px;">Đài Loan</li>
+                                    <li class="departure-item">Đài Bắc</li>
+                                    <li class="departure-item">Đài Nam</li>
+                                    <li class="departure-item">Đài Trung(RMQ)</li>
+                                    <li class="departure-item">Cao Hùng(KHH)</li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-3 col-xs-6">
+                                <ul class="list-destination">
+                                    <li style="color: #17acc3; font-size: 22px;">Singapore</li>
+                                    <li class="departure-item">Singapore(SIN)</li>
+                                    <li style="color: #17acc3; font-size: 22px;">Hong Kong</li>
+                                    <li class="departure-item">Hong Kong(MFM)</li>
+                                    <li style="color: #17acc3; font-size: 22px;">Ấn Độ</li>
+                                    <li class="departure-item">Ahmedabad - Sardar Vallabhbhai Patel (AMD)</li>
+                                    <li class="departure-item">Almaty (ALA)</li>
+                                    <li class="departure-item">Mumbai - Chhatrapati Shivaji - Nhà ga 2 (BOM)</li>
+                                    <li class="departure-item">Kochi (COK)</li>
+                                    <li class="departure-item">Bangalore - Kempegowda (BLR)</li>
+                                    <li class="departure-item">Hyderabad - Rajiv Gandhi (HYD)</li>
+                                    <li class="departure-item">Campuchia</li>
+                                    <li class="departure-item">Phnom Penh (PNH)</li>
+                                    <li class="departure-item">Xiêm Riệp (SAI)</li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-3 col-xs-6">
+                                <ul class="list-destination">
+                                    <li style="color: #17acc3; font-size: 22px;">Thái Lan</li>
+                                    <li class="departure-item">Bangkok (BKK)</li>
+                                    <li class="departure-item">Chiang Mai (CNX)</li>
+                                    <li class="departure-item">Chiang rai (CEI)</li>
+                                    <li class="departure-item">Hat Yai (HDY)</li>
+                                    <li class="departure-item">Khon Kaen (KKC)</li>
+                                    <li class="departure-item">Krabi (KBV)</li>
+                                    <li class="departure-item">Nakhon Si Thammarat (NST)</li>
+                                    <li class="departure-item">Pattaya (UTP)</li>
+                                    <li class="departure-item">Phuket (HKT)</li>
+                                    <li class="departure-item">Surat Thani (URT)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wrap-item col-xl col-sm-1">
+                    <img src="https://www.vietnamairlines.com/Themes/VNANew/Portal/images/icon/icon_arrows.png" alt="" srcset="">
+                </div>
+                <div class="booking-item col-xl col-sm-3">
+                    <p class="header-item">Điểm đến</p>
+                    <input id="destination-input" class="from-to" type="text">
+                </div>
+                <div id="destination-choose" class="modal">
+                    <div  class="modal-content">
+                        <div id="close-destination-icon" class="close-start-icon"><i class="fa-solid fa-x"></i></div>
+                        <h3 style="margin-left: 20px;">Chọn điểm đến</h3>
+                        <div class="modal-body d-flex">
+                            <div class="col-sm-3 col-xs-6">
+                                <ul class="list-destination">
+                                    <li style="color: #17acc3; font-size: 22px;">Nội Địa</li>
+                                    <li value="HAN" class="destination-item">Hà Nội(HNA)</li>
+                                    <li value="SGN" class="destination-item">Hồ Chí Minh(SGN)</li>
+                                    <li value="HPH" class="destination-item">Hải Phòng(HPH)</li>
+                                    <li value="VII" class="destination-item">Vinh(VII)</li>
+                                    <li class="destination-item">Thanh Hóa(THD)</li>
+                                    <li class="destination-item">Đà Nẵng(DAD)</li>
+                                    <li class="destination-item">Nha Trang(CXR)</li>
+                                    <li class="destination-item">Đà Lạt</li>
+                                    <li class="destination-item">Côn Đảo(VCS)</li>
+                                    <li class="destination-item">Phú Quốc(PQC)</li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-3 col-xs-6">
+                                <ul class="list-destination">
+                                    <li style="color: #17acc3; font-size: 22px;">Úc</li>
+                                    <li class="destination-item">Sydney(SYD)</li>
+                                    <li class="destination-item">Melboume (MEL)</li>
+                                    <li class="destination-item">Brisbane (BNE)</li>
+                                    <li class="destination-item">Adelaide(ADL)</li>
+                                    <li class="destination-item">Perth (PER)</li>
+                                    <li sstyle="color: #17acc3; font-size: 22px;">Hàn Quốc</li>
+                                    <li class="destination-item">Seoul</li>
+                                    <li class="destination-item">Busan</li>
+                                    <li class="destination-item">Daegu(TAE)</li>
+                                    <li style="color: #17acc3; font-size: 22px;">Nhật Bản</li>
+                                    <li class="destination-item">Osaka</li>
+                                    <li value="NRT" class="destination-item">Tokyo Narita</li>
+                                    <li class="destination-item">Haneda Tokyo</li>
+                                    <li class="destination-item">Nagoya</li>
+                                    <li style="color: #17acc3; font-size: 22px;">Đài Loan</li>
+                                    <li class="destination-item">Đài Bắc</li>
+                                    <li class="destination-item">Đài Nam</li>
+                                    <li class="destination-item">Đài Trung(RMQ)</li>
+                                    <li class="destination-item">Cao Hùng(KHH)</li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-3 col-xs-6">
+                                <ul class="list-destination">
+                                    <li style="color: #17acc3; font-size: 22px;">Singapore</li>
+                                    <li class="destination-item">Singapore(SIN)</li>
+                                    <li style="color: #17acc3; font-size: 22px;">Hong Kong</li>
+                                    <li class="destination-item">Hong Kong(MFM)</li>
+                                    <li style="color: #17acc3; font-size: 22px;">Ấn Độ</li>
+                                    <li class="destination-item">Ahmedabad - Sardar Vallabhbhai Patel (AMD)</li>
+                                    <li class="destination-item">Almaty (ALA)</li>
+                                    <li class="destination-item">Mumbai - Chhatrapati Shivaji - Nhà ga 2 (BOM)</li>
+                                    <li class="destination-item">Kochi (COK)</li>
+                                    <li class="destination-item">Bangalore - Kempegowda (BLR)</li>
+                                    <li class="destination-item">Hyderabad - Rajiv Gandhi (HYD)</li>
+                                    <li class="destination-item">Campuchia</li>
+                                    <li class="destination-item">Phnom Penh (PNH)</li>
+                                    <li class="destination-item">Xiêm Riệp (SAI)</li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-3 col-xs-6">
+                                <ul class="list-destination">
+                                    <li style="color: #17acc3; font-size: 22px;">Thái Lan</li>
+                                    <li class="destination-item">Bangkok (BKK)</li>
+                                    <li class="destination-item">Chiang Mai (CNX)</li>
+                                    <li class="destination-item">Chiang rai (CEI)</li>
+                                    <li class="destination-item">Hat Yai (HDY)</li>
+                                    <li class="destination-item">Khon Kaen (KKC)</li>
+                                    <li class="destination-item">Krabi (KBV)</li>
+                                    <li class="destination-item">Nakhon Si Thammarat (NST)</li>
+                                    <li class="destination-item">Pattaya (UTP)</li>
+                                    <li class="destination-item">Phuket (HKT)</li>
+                                    <li class="destination-item">Surat Thani (URT)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="booking-item col-xl col-sm-3">
+                    <p class="header-item">Ngày đi</p>
+                    <input class="date-from-to" type="date"  name="" id="datedeparture">
+                </div>
+                <div class="booking-item col-xl col-sm-2">
+                    <p class="header-item">Ngày về</p>
+                    <input class="date-from-to" readonly type="date" name="" id="date-return">
+                </div>
+                <div class="booking-item col-xl col-sm-3">
+                    <p class="header-item">Người lớn</p>
+                    <select class="passenger" name="" id="ADT">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                    </select>
+                    <p class="age-booking">(>=12 tuổi)</p>
+                </div>
+                <div class="booking-item col-xl col-sm-3">
+                    <p class="header-item">Trẻ em</p>
+                    <select class="passenger" name="" id="CHD">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                    </select>
+                    <p class="age-booking">(<12 tuổi)</p>
+                </div>
+                <div class="booking-item col-xl col-sm-3">
+                    <p class="header-item">Em bé</p>
+                    <select class="passenger" name="" id="">
+                        <option value="1">0</option>
+                        <option value="1">1</option>
+                        <option value="1">2</option>
+                        <option value="1">3</option>
+                        <option value="1">4</option>
+                        <option value="1">5</option>
+                        <option value="1">6</option>
+                        <option value="1">7</option>
+                        <option value="1">8</option>
+                    </select>
+                    <p class="age-booking">(<24 tháng)</p>
+                </div>
+                <div class="booking-item col-xl col-sm-3">
+                    <button class="search-btn" id="submit" style="margin-top: 39px;">Tìm chuyến bay</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content">
+
+    <div class="banner">
+
+    </div>
+</div>
+<footer class="footer">
+    <div class="footer-category d-flex justify-content-between">
+        <div class="footer-category-item">
+            <p class="footer-category-item-header">
+                Vietname Airlines
+            </p>
+            <ul>
+                <li>
+                    <a href="">Giới thiệu công ty</a>
+                </li>
+                <li>
+                    <a href="">Đội bay</a>
+                </li>
+                <li>
+                    <a href="">Đối tác</a>
+                </li>
+                <li>
+                    <a href="">thông Tin Truyền Thông</a>
+                </li>
+                <li>
+                    <a href="">Trách Nhiệm Xã Hội</a>
+                </li>
+                <li>
+                    <a href="">Quan Hệ Cổ Đông</a>
+                </li>
+                <li>
+                    <a href="">Thông Tin Đấu Thầu</a>
+                </li>
+                <li>
+                    <a href="">Việc làm với VietNam Airline</a>
+                </li>
+            </ul>
+        </div>
+        <div class="footer-category-item">
+            <p class="footer-category-item-header">
+                Pháp Lý
+            </p>
+            <ul>
+                <li>
+                    <a href="">Các Điều Kiện & Điều Khoản</a>
+                </li>
+                <li>
+                    <a href="">Điều Lệ Vận Chuyển
+                    </a>
+                </li>
+                <li>
+                    <a href="">Điều Kiện Sử Dụng Cookies</a>
+                </li>
+                <li>
+                    <a href="">Bảo Mật Thông Tin</a>
+                </li>
+                <li>
+                    <a href="">Quy Chế Hoạt Động Sàn TMDT</a>
+                </li>
+            </ul>
+        </div>
+        <div class="footer-category-item">
+            <p class="footer-category-item-header">
+                Hỗ Trợ
+            </p>
+            <ul>
+                <li>
+                    <a href="">Góp Ý Dịch Vụ</a>
+                </li>
+                <li>
+                    <a href="">Trung Tâm Trợ Giúp
+                    </a>
+                </li>
+                <li>
+                    <a href="">Liên Hệ Với Chi Nhánh Của VNA</a>
+                </li>
+                <li>
+                    <a href="">Chính Sách Bảo Vệ Hành Khách</a>
+                </li>
+                <li>
+                    <a href="">Trợ Lý Ảo VietNam Airline</a>
+                </li>
+                <li>
+                    <a href="">Ứng Dụng Di Động</a>
+                </li>
+            </ul>
+        </div>
+        <div class="footer-category-item">
+            <p class="footer-category-item-header">
+                Vận Tải Hàng Hóa
+            </p>
+            <ul>
+                <li>
+                    <a href="">Trang Web Hàng Hóa</a>
+                </li>
+
+            </ul>
+        </div>
+        <div class="footer-category-item">
+            <p class="footer-category-item-header">
+                Thông tin hữu ích
+            </p>
+            <ul>
+                <li>
+                    <a href="">Cẩm Nang Mua Vé Online</a>
+                </li>
+                <li>
+                    <a href="">Quảng Cáo Với Vietnam Airline</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="copy-right d-flex flex-column align-items-center">
+        <p>© 2019 Vietnam Airlines JSC</p>
+        <p>Tổng công ty Hàng không Việt Nam - CTCP. Số 200 Nguyễn Sơn, P.Bồ Đề, Q.Long Biên, Hà Nội.</p>
+        <p>Điện thoại: (+84-24) 38272289. Fax: (+84-24) 38722375.</p>
+        <p>Giấy chứng nhận đăng ký doanh nghiệp, mã số doanh nghiệp: 0100107518, đăng ký lần đầu ngày 30/6/2010, đăng ký thay đổi lần thứ 9 ngày 12/01/2022, cấp bởi Sở KHĐT thành phố Hà Nội.</p>
+    </div>
+</footer>
+<script src="/agency/home.js"></script>
+</body>
+</html>
