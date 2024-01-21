@@ -63,7 +63,7 @@ public class AgencyController {
     private final RestTemplate restTemplate = new RestTemplate();
 
 
-    @GetMapping("/agency")
+    @GetMapping("/")
     public String homePage() {
        return "home";
     }
@@ -72,7 +72,7 @@ public class AgencyController {
         return "login";
     }
 
-    @PostMapping("/agency/register")
+    @PostMapping("/customer/register")
     public @ResponseBody ResponseEntity<?> register(@RequestBody User user) throws Exception {
         if(userRepository.findUserByEmail(user.getEmail()) != null) {
             return ResponseEntity.status(HttpStatusCode.valueOf(401)).body("Email already exists");
@@ -82,7 +82,7 @@ public class AgencyController {
             return ResponseEntity.status(HttpStatusCode.valueOf(200)).body("Successfully");
         }
     }
-    @GetMapping("agency/flight/search")
+    @GetMapping("/flight/search")
     public String flightSearch(@RequestParam String date, @RequestParam String departure, @RequestParam String arrival, @RequestParam int ADT, @RequestParam int CHD, Model model ) throws JsonProcessingException {
         ApiUrl += "&dep_iata="  + departure;
         ApiUrl += "&arr_iata=" + arrival;
@@ -93,7 +93,7 @@ public class AgencyController {
         List<DataFlight> dataFlights = objectMapper.readValue(jsonNode.get("data").toPrettyString(), new TypeReference<List<DataFlight>>(){});
 
         System.out.println(dataFlights.get(0).getDeparture().getAirport());
-        model.addAttribute("price", priceRepository.getPriceByDepartureAndArrival(departure,arrival).getPrice());
+        model.addAttribute("price", 100000);
         model.addAttribute("totalResult", objectMapper.readTree(jsonResponse).get("pagination").get("total").asText());
         model.addAttribute("flights", dataFlights);
         model.addAttribute("date",date);
@@ -103,7 +103,7 @@ public class AgencyController {
         model.addAttribute("CHD",CHD);
         return "flights";
     }
-    @GetMapping("/agency/flight/passengerinfo")
+    @GetMapping("/flight/passengerinfo")
     public String passengerInfo(@RequestParam String flight, @RequestParam String date, @RequestParam String departure, @RequestParam String arrival,@RequestParam int ADT, @RequestParam int CHD, Model model) throws JsonProcessingException {
         ApiUrl+= "&flight_iata=" + flight;
         String jsonResponse = restTemplate.getForObject(ApiUrl,String.class);
@@ -120,14 +120,14 @@ public class AgencyController {
         model.addAttribute("durationhour",duration.toHours());
         model.addAttribute("durationmin", duration.toHours() % 60);
         NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
-        model.addAttribute("price", numberFormat.format(priceRepository.getPriceByDepartureAndArrival(departure,arrival).getPrice()));
-        model.addAttribute("priceReal", priceRepository.getPriceByDepartureAndArrival(departure,arrival).getPrice());
-        model.addAttribute("tax", numberFormat.format(priceRepository.getPriceByDepartureAndArrival(departure,arrival).getTax()));
-        model.addAttribute("taxReal", priceRepository.getPriceByDepartureAndArrival(departure,arrival).getTax());
-        model.addAttribute("totalPrice", numberFormat.format(priceRepository.getPriceByDepartureAndArrival(departure,arrival).getPrice() + priceRepository.getPriceByDepartureAndArrival(departure,arrival).getTax()));
+        model.addAttribute("price", 1000000);
+        model.addAttribute("priceReal", 1000000);
+        model.addAttribute("tax", 500000);
+        model.addAttribute("taxReal", 1000000);
+        model.addAttribute("totalPrice",500000);
         return "passengerinfo";
     }
-    @PostMapping("/agency/flight/passengerinfo")
+    @PostMapping("/flight/passengerinfo")
     public @ResponseBody String payment(@RequestBody OrderDetail orderDetail) throws UnsupportedEncodingException {
         PaymentController paymentController = new PaymentController();
         Payment payment = paymentController.create(orderDetail.getTotalPrice());
@@ -135,7 +135,7 @@ public class AgencyController {
         orderRepository.save(orderDetail);
         return payment.getUrl();
     }
-    @GetMapping("/agency/booking/success")
+    @GetMapping("/booking/success")
     public String booking(@RequestParam String vnp_TxnRef, HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
         User user =  userRepository.findUserByEmail(customUserDetails.getUsername());

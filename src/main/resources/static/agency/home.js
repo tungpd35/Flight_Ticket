@@ -47,5 +47,5 @@ document.getElementById("submit").addEventListener("click", function() {
     var adt = document.getElementById("ADT").value
     var chd = document.getElementById("CHD").value
     console.log(adt + chd)
-    window.location.href = "/agency/flight/search?date=" + date + "&departure=" + departure+ "&arrival=" + destination + "&ADT=" + adt  + "&CHD=" + chd
+    window.location.href = "/flight/search?date=" + date + "&departure=" + departure+ "&arrival=" + destination + "&ADT=" + adt  + "&CHD=" + chd
 })

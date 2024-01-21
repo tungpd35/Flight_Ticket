@@ -14,7 +14,7 @@ document.getElementById("submit").addEventListener("click", function () {
     var name = document.getElementById("name").value
     var birth = document.getElementById("birth").value
     var gener = document.getElementById("gener").value
-    fetch("http://localhost:8080/agency/flight/passengerinfo", {
+    fetch("http://localhost:8080/flight/passengerinfo", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
