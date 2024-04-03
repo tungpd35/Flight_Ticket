@@ -1,4 +1,4 @@
-var destination = null
+    var destination = null
 var departure = null
 document.getElementById("close-departure-icon").addEventListener("click", function() {
     document.getElementById("departure-choose").style.display = "none"

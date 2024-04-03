@@ -27934,3 +27934,10 @@ pre[class*="language-"] {
 }
 
 /*# sourceMappingURL=dashboard-free.css.map */
+.mess-error{
+  display: none;
+  color: red;
+  margin-top: -12px;
+  font-size: 13px;
+  margin-bottom: 8px;
+}

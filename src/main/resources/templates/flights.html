@@ -196,5 +196,16 @@
         <p>Giấy chứng nhận đăng ký doanh nghiệp, mã số doanh nghiệp: 0100107518, đăng ký lần đầu ngày 30/6/2010, đăng ký thay đổi lần thứ 9 ngày 12/01/2022, cấp bởi Sở KHĐT thành phố Hà Nội.</p>
     </div>
 </footer>
+<script>
+    fetch("http://api.aviationstack.com/v1/flights?access_key=1c9a25ade10dbff62d20d5275413b1cc&airline_iata=VN&dep_iata=HAN&arr_iata=SGN", {
+        method: 'GET',
+        referrerPolicy: "no-referrer"
+    })
+        .then(function (response) {
+            return response.json()
+        }).then(function (data) {
+            console.log(data)
+    })
+</script>
 </body>
 </html>

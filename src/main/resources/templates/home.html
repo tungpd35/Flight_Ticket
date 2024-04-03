@@ -32,8 +32,10 @@
             <li><a href="">Ưu đãi</a></li>
         </ul>
     </div>
-    <div class="header-login d-flex justify-content-start align-items-center">
-        <div class="login"><a href="/logout">Đăng xuất</a></div>
+    <div class="header-login d-flex justify-cnhậpntent-start align-items-center">
+        <div th:if="${username == false}" class="login"><a href="/login">Đăng nhập</a></div>
+        <div th:if="${username == false}" class="login"><a href="/register">Đăng ký</a></div>
+        <div th:if="${username != false}" class="login"><a href="/users/logout">Đăng xuất</a></div>
     </div>
 </header>
 <class class="banner">

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -22,16 +23,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public JwtTokenProvider tokenProvider;
 
     @Autowired
-    private UserService customUserDetailsService;
+    private UserDetailsService customUserDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             // Lấy jwt từ request
-            String jwt = getJwtFromRequest(request);
+            String jwt = tokenProvider.getJwtFromRequest(request);
             if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
                 // Lấy id user từ chuỗi jwt
-                String userName = tokenProvider.getUsernameFromToken(jwt);
+                String userName = tokenProvider.getUsernameFromToken(request);
                 // Lấy thông tin người dùng từ username
                 UserDetails userDetails = customUserDetailsService.loadUserByUsername(userName);
                 System.out.println(userDetails.getAuthorities());
@@ -48,31 +49,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             log.error("failed on set user authentication", ex);
         }
         filterChain.doFilter(request, response);
-    }
-    public String getJwtFromRequest(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        String token = getCookie(request,"token");
-        // Kiểm tra xem header Authorization có chứa thông tin jwt không
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
-        } else if(token != "Cookie not found") {
-            return token;
-        }
-        return null;
-    }
-    public String getCookie(HttpServletRequest request,String name) {
-        // Lấy danh sách các cookie từ request
-        Cookie[] cookies = request.getCookies();
-
-        // Kiểm tra nếu danh sách cookie không null và không rỗng
-        if (cookies != null && cookies.length > 0) {
-            for (Cookie cookie : cookies) {
-                if (name.equals(cookie.getName())) {
-                    String cookieValue = cookie.getValue();
-                    return  cookieValue;
-                }
-            }
-        }
-        return "Cookie not found";
     }
 }

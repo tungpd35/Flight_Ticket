@@ -35,8 +35,6 @@ import java.util.Timer;
 @EnableWebSecurity
 public class SecurityConfig {
     @Autowired
-    private UserService userService;
-    @Autowired
     private JwtTokenProvider jwtTokenProvider;
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
@@ -51,12 +49,11 @@ public class SecurityConfig {
         // Password encoder, để Spring Security sử dụng mã hóa mật khẩu người dùng
         return new BCryptPasswordEncoder();
     }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http ) throws Exception {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeRequests()
-                .requestMatchers("/","agency/**","*/login","/agency/register","airline/register","/dashboard/**").permitAll()
+                .requestMatchers("/","agency/**","*/login","/register","airline/register","/dashboard/**").permitAll()
                 .requestMatchers("/agency/**").hasRole("AGENCY")
                 .requestMatchers("/airline/**").hasRole("AIRLINE")
                 .anyRequest().permitAll()
@@ -74,7 +71,7 @@ public class SecurityConfig {
                         super.onAuthenticationSuccess(request, response, authentication);
                     }
                                                                                                                                           }
-                )).logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout")))
+                ))
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class).build();
     }
 }

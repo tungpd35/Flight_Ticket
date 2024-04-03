@@ -3,17 +3,20 @@ package com.example.airlineticket.controllers;
 import com.example.airlineticket.models.*;
 import com.example.airlineticket.payload.Request;
 import com.example.airlineticket.payload.Response;
+import com.example.airlineticket.repositories.ConfirmTokenRepository;
 import com.example.airlineticket.repositories.OrderRepository;
 import com.example.airlineticket.repositories.PriceRepository;
 import com.example.airlineticket.repositories.UserRepository;
 import com.example.airlineticket.security.JwtAuthenticationFilter;
 import com.example.airlineticket.security.JwtTokenProvider;
+import com.example.airlineticket.services.MailService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import io.jsonwebtoken.io.CodecException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,6 +26,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -42,6 +46,10 @@ import java.time.temporal.Temporal;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+
+import static jakarta.mail.Transport.send;
 
 @Controller
 @RequestMapping("/")
@@ -57,30 +65,80 @@ public class AgencyController {
     @Autowired
     private PriceRepository priceRepository;
     @Autowired
+    private ConfirmTokenRepository confirmTokenRepository;
+    @Autowired
     private JavaMailSender javaMailSender;
+    @Autowired
+    private MailService mailService;
     private final String apiKey = "1c9a25ade10dbff62d20d5275413b1cc";
     private String ApiUrl = "http://api.aviationstack.com/v1/flights?access_key=" + apiKey + "&airline_iata=VN";
     private final RestTemplate restTemplate = new RestTemplate();
 
 
     @GetMapping("/")
-    public String homePage() {
-       return "home";
+    public String homePage(Model model,HttpServletRequest request) {
+        try {
+            String userName = jwtTokenProvider.getUsernameFromToken(request);
+            model.addAttribute("username", userName);
+            return "home";
+        } catch (Exception e) {
+            model.addAttribute("username", false);
+            return "home";
+        }
+    }
+    @GetMapping("/users/logout")
+    public String logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("token", "");
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/";
     }
     @GetMapping("/login")
     public String loginPage(){
         return "login";
     }
-
-    @PostMapping("/customer/register")
+    @GetMapping("/register")
+    public String customerRegister()  {
+       return "register";
+    }
+    @PostMapping("/register")
     public @ResponseBody ResponseEntity<?> register(@RequestBody User user) throws Exception {
         if(userRepository.findUserByEmail(user.getEmail()) != null) {
             return ResponseEntity.status(HttpStatusCode.valueOf(401)).body("Email already exists");
         } else {
             User newUser = new User(user.getEmail(), passwordEncoder.encode(user.getPassword()), Role.AGENCY);
-            userRepository.save(newUser);
+            String token = UUID.randomUUID().toString();
+
+            ConfirmationToken confirmationToken = new ConfirmationToken(newUser.getEmail(), newUser.getPassword(),token);
+            confirmTokenRepository.save(confirmationToken);
+            String resetLink = "http://localhost:8080/register-done/" + token;
+            SimpleMailMessage msg = new SimpleMailMessage();
+            msg.setFrom("phamductung69@gmail.com");
+            msg.setTo(user.getEmail());
+            msg.setSubject("Hoàn tất đăng ký");
+            msg.setText("Nhấn vào liên kết dưới đây để hoàn tất đăng ký.\n\n" + resetLink + "\n\nNếu đây không phải yêu cầu của bạn, vui lòng bỏ qua email này.");
+            CompletableFuture.runAsync(() -> {
+                mailService.send(msg);
+            });
             return ResponseEntity.status(HttpStatusCode.valueOf(200)).body("Successfully");
         }
+    }
+    @GetMapping("/register-done/{token}")
+    public String registerDone(@PathVariable String token) throws Exception {
+        try {
+            ConfirmationToken confirmationToken = confirmTokenRepository.findConfirmationTokenByToken(token);
+            User newUser = new User(confirmationToken.getEmail(), passwordEncoder.encode(confirmationToken.getPassword()), Role.AGENCY);
+            userRepository.save(newUser);
+            confirmTokenRepository.delete(confirmationToken);
+            return "done";
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+    }
+    @GetMapping("/register/confirm")
+    public String registerConfirm() {
+        return "confirm";
     }
     @GetMapping("/flight/search")
     public String flightSearch(@RequestParam String date, @RequestParam String departure, @RequestParam String arrival, @RequestParam int ADT, @RequestParam int CHD, Model model ) throws JsonProcessingException {
@@ -90,9 +148,13 @@ public class AgencyController {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         JsonNode jsonNode =  objectMapper.readTree(jsonResponse);
-        List<DataFlight> dataFlights = objectMapper.readValue(jsonNode.get("data").toPrettyString(), new TypeReference<List<DataFlight>>(){});
+        List<DataFlight> flights = objectMapper.readValue(jsonNode.get("data").toPrettyString(), new TypeReference<List<DataFlight>>(){});
+        System.out.println(flights.get(0).getFlight_date());
+        System.out.println(flights.size());
+        List<DataFlight> dataFlights =  flights.stream().filter(flight -> flight.getFlight_date().equals(date)).toList();
 
-        System.out.println(dataFlights.get(0).getDeparture().getAirport());
+        System.out.println(dataFlights.get(0).getFlight_date());
+        System.out.println(dataFlights.size());
         model.addAttribute("price", 100000);
         model.addAttribute("totalResult", objectMapper.readTree(jsonResponse).get("pagination").get("total").asText());
         model.addAttribute("flights", dataFlights);

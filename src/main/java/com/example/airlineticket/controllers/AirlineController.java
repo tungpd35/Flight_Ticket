@@ -15,6 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpRequest;
@@ -46,6 +47,7 @@ public class AirlineController {
         List<Long> listrevenue = new ArrayList<>();
         List<Integer> revenueMonth = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
+
         for(int i=0;i<=11;i++) {
             int finalI = i;
             listrevenue.add(orderDetailList.stream().filter(orderDetail -> orderDetail.getDate().getMonth() == finalI).count()) ;
@@ -137,6 +139,7 @@ public class AirlineController {
             User newUser = new User(user.getEmail(), passwordEncoder.encode(user.getPassword()), Role.AIRLINE);
             userRepository.save(newUser);
             return ResponseEntity.status(HttpStatusCode.valueOf(200)).body("Successfully");
+
         }
     }
 }
