@@ -195,6 +195,7 @@ public class AgencyController {
         Payment payment = paymentController.create(orderDetail.getTotalPrice());
         orderDetail.setTxnRef(payment.getTxnRef());
         orderRepository.save(orderDetail);
+        System.out.println(payment.getUrl());
         return payment.getUrl();
     }
     @GetMapping("/booking/success")

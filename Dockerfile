@@ -9,5 +9,5 @@ COPY mvnw pom.xml ./
 RUN ./mvnw dependency:resolve
 
 COPY src ./src
-
+ENV TZ="Asia/Bangkok"
 CMD ["./mvnw", "spring-boot:run","-Dspring-boot.run.profiles=mysql"]
